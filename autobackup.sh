@@ -9,15 +9,15 @@ password=""
 # webdav服务器地址
 server_address=""
 
-echo "deleting old backups" &&
+echo "deleting old backups"
 rm -rf /home/backup/* &&
-echo "backuping" &&
+echo "backuping"
 # 下面是lnmp一键包的备份脚本的路径
 /home/kzw/lnmp*/tools/backup.sh &&
-echo "packaging" &&6
+echo "packaging"
 tar -zcf /home/backup-${backup_date}.tar.gz -C /home backup &&
-echo "uploading" &&
-curl -u "${username}:${password}" -T "/home/backup-${backup_date}.tar.gz" "${server_address}" &&
-rm -f /home/backup-${backup_date}.tar.gz &&
 echo "deleting old backups on the remote server"
-curl -u "${username}:${password}" -X DELETE "${server_address}backup-${old_backup_date}.tar.gz" 
+curl -u "${username}:${password}" -X DELETE "${server_address}backup-${old_backup_date}.tar.gz" &&
+echo "uploading"
+curl -u "${username}:${password}" -T "/home/backup-${backup_date}.tar.gz" "${server_address}" &&
+rm -f /home/backup-${backup_date}.tar.gz
